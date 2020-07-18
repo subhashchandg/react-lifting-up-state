@@ -1,24 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import './App.scss';
+import Header from './components/header';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Routes from './components/routes';
+
+const allProducts = [
+  { id: 123, name: 'HP Laptop', price: '122.33$' },
+  { id: 124, name: 'Del Laptop', price: '120.33$' },
+  { id: 125, name: 'MAC Laptop', price: '127.33$' },
+  { id: 126, name: 'Lenovo Laptop', price: '129.33$' },
+  { id: 127, name: 'Toshiba Laptop', price: '189.33$' },
+];
 
 function App() {
+  const [cartItems, updateCart] = useState([]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Header
+          count={cartItems
+            .map((el) => el.count || 1)
+            .reduce((acc, el) => acc + el, 0)}
+        />
+        <Routes
+          cartItems={cartItems}
+          products={allProducts}
+          updateCart={updateCart}
+        />
+      </Router>
     </div>
   );
 }
